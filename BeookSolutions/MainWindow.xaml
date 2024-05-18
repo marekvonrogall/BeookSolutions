@@ -19,7 +19,24 @@
             <Label Content=":(" Canvas.Left="905" Canvas.Top="348" Foreground="White" FontSize="70" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Label Content="Du kannst Beook hier herunterladen: https://beook.ch/download" Canvas.Left="48" Canvas.Top="215" Height="75" Width="583" FontSize="20" Foreground="#FF80A46D" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Canvas>
-        <Canvas x:Name="canvasMainApplication" Visibility="Hidden"/>
+        <Canvas x:Name="canvasMainApplication">
+            <Label x:Name="labelSolutionStatus" Content="Lösungen sind aktuell deaktiviert." Canvas.Left="296" Canvas.Top="176" Foreground="#FF80A46D" FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="408"/>
+            <Button x:Name="buttonToggleSolutions" Content="Lösungen aktivieren" Canvas.Left="290" Canvas.Top="248" Height="44" Width="420" BorderBrush="#FF80A46D" BorderThickness="3" Foreground="#FF80A46D" Background="White" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="17" Click="buttonToggleSolutions_Click">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Label Content="Hinweis: Wenn du dein Beook Profil wechselst, musst du das Setup erneut ausführen." Canvas.Left="37" Canvas.Top="512" FontSize="20" Foreground="#FF80A46D" HorizontalAlignment="Center" VerticalAlignment="Top" Width="765"/>
+            <Button x:Name="buttonResetApplication" Content="Seutp ausführen" Canvas.Left="818" Canvas.Top="516" Background="White" BorderBrush="#FF80A46D" BorderThickness="2" Foreground="#FF80A46D" Height="33" Width="141" HorizontalAlignment="Center" VerticalAlignment="Top" Click="buttonResetApplication_Click" FontSize="16">
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Canvas>
 
     </Grid>
 </Window>

@@ -10,19 +10,7 @@ namespace BeookSolutions
     public class LogFile
     {
         private string _logFilePath;
-        private string _applicationVersion;
-        private string _applicationDirectory;
-        private int _profileId;
-        private string _profileName;
-        private string _profileEmail;
-        private string _databasePath;
         public string LogFilePath { get { return _logFilePath; } }
-        public string ApplicationVersion { get { return _applicationVersion; } }
-        public string ApplicationDirectory { get { return _applicationDirectory; } }
-        public int ProfileId { get { return _profileId; } }
-        public string ProfileName { get { return _profileName; } }
-        public string ProfileEmail { get { return _profileEmail; } }
-        public string DatabasePath { get { return _databasePath; } }
 
 
         public LogFile(string username)
@@ -70,29 +58,30 @@ namespace BeookSolutions
                     Match versionMatch = versionRegex.Match(line);
                     if (versionMatch.Success)
                     {
-                        _applicationVersion = versionMatch.Groups[1].Value;
+                        Properties.Settings.Default.ApplicationVersion = versionMatch.Groups[1].Value;
                     }
 
                     Match directoryMatch = directoryRegex.Match(line);
                     if (directoryMatch.Success)
                     {
-                        _applicationDirectory = directoryMatch.Groups[1].Value;
+                        Properties.Settings.Default.ApplicationDirectory = directoryMatch.Groups[1].Value;
                     }
 
                     Match profileMatch = profileRegex.Match(line);
                     if (profileMatch.Success)
                     {
-                        _profileId = int.Parse(profileMatch.Groups[1].Value);
-                        _profileName = profileMatch.Groups[2].Value;
-                        _profileEmail = profileMatch.Groups[3].Value;
+                        Properties.Settings.Default.ProfileId = int.Parse(profileMatch.Groups[1].Value);
+                        Properties.Settings.Default.ProfileName = profileMatch.Groups[2].Value;
+                        Properties.Settings.Default.ProfileEmail = profileMatch.Groups[3].Value;
                     }
 
                     Match databaseMatch = databaseRegex.Match(line);
                     if (databaseMatch.Success)
                     {
-                        _databasePath = databaseMatch.Groups[1].Value;
+                        Properties.Settings.Default.DatabasePath = databaseMatch.Groups[1].Value;
                     }
                 }
+                Properties.Settings.Default.Save();
             }
 
             //MessageBox.Show($"Application Version: {_applicationVersion}\nApplication Directory: {_applicationDirectory}\nProfile ID: {_profileId}\nProfile Name: {_profileName}\nProfile Email: {_profileEmail}\nDatabase Path: {_databasePath}");

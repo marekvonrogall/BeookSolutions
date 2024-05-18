@@ -29,6 +29,7 @@ namespace BeookSolutions
         private LogFile logFile;
         private CheckProcess process = new CheckProcess();
         private BeookInfo beookInfo;
+        private Database database = new Database();
 
         public MainWindow()
         {
@@ -105,6 +106,37 @@ namespace BeookSolutions
             string appPath = Assembly.GetExecutingAssembly().Location;
             Process.Start(appPath);
             Environment.Exit(0);
+        }
+
+        private void buttonResetApplication_Click(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+            Properties.Settings.Default.Save();
+            RestartApp();
+        }
+
+        private void buttonToggleSolutions_Click(object sender, RoutedEventArgs e)
+        {
+            if(Properties.Settings.Default.SolutionsActivated)
+            {
+                database.DeactivateSolutions();
+                labelSolutionStatus.Content = "Lösungen sind aktuell deaktiviert.";
+                buttonToggleSolutions.Content = "Lösungen aktivieren";
+                Properties.Settings.Default.SolutionsActivated = false;
+            }
+            else
+            {
+                if(File.Exists(Properties.Settings.Default.DatabasePath))
+                {
+                    MessageBox.Show("works");
+                }
+
+                database.ActivateSolutions();
+                labelSolutionStatus.Content = "Lösungen sind aktuell aktiviert.";
+                buttonToggleSolutions.Content = "Lösungen deaktivieren";
+                Properties.Settings.Default.SolutionsActivated = true;
+            }
+            Properties.Settings.Default.Save();
         }
     }
 }
