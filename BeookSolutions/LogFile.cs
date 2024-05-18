@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace BeookSolutions
@@ -83,9 +82,7 @@ namespace BeookSolutions
                 }
                 Properties.Settings.Default.Save();
             }
-
             //MessageBox.Show($"Application Version: {_applicationVersion}\nApplication Directory: {_applicationDirectory}\nProfile ID: {_profileId}\nProfile Name: {_profileName}\nProfile Email: {_profileEmail}\nDatabase Path: {_databasePath}");
         }
-
     }
 }

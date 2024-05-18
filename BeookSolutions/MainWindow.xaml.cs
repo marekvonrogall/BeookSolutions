@@ -1,19 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.IO;
-using System.Threading;
-using System.Security.Policy;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -96,8 +83,33 @@ namespace BeookSolutions
 
         private void StartMainApplication()
         {
+            string databaseSolutionValue = database.GetZValue();
+            if (databaseSolutionValue != null)
+            {
+                if(databaseSolutionValue == "True")
+                {
+                    Properties.Settings.Default.SolutionsActivated = true;
+                }
+                else
+                {
+                    Properties.Settings.Default.SolutionsActivated = false;
+                }
+                Properties.Settings.Default.Save();
+            }
+
             canvasSetupGuide.Visibility = Visibility.Hidden;
             canvasMainApplication.Visibility = Visibility.Visible;
+
+            if(Properties.Settings.Default.SolutionsActivated)
+            {
+                labelSolutionStatus.Content = "Lösungen sind aktuell aktiviert.";
+                buttonToggleSolutions.Content = "Lösungen deaktivieren";
+            }
+            else
+            {
+                labelSolutionStatus.Content = "Lösungen sind aktuell deaktiviert.";
+                buttonToggleSolutions.Content = "Lösungen aktivieren";
+            }
         }
 
         private void RestartApp()
@@ -126,11 +138,6 @@ namespace BeookSolutions
             }
             else
             {
-                if(File.Exists(Properties.Settings.Default.DatabasePath))
-                {
-                    MessageBox.Show("works");
-                }
-
                 database.ActivateSolutions();
                 labelSolutionStatus.Content = "Lösungen sind aktuell aktiviert.";
                 buttonToggleSolutions.Content = "Lösungen deaktivieren";
