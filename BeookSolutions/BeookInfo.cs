@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Threading;
 
 
 namespace BeookSolutions
@@ -53,12 +54,12 @@ namespace BeookSolutions
             }
             RestartApp();
         }
-        public void RestartApp()
+        public async void RestartApp()
         {
-            string appPath = Assembly.GetExecutingAssembly().Location;
-            Process.Start(appPath);
+            string appPath = Process.GetCurrentProcess().MainModule.FileName;
+            Process.Start(new ProcessStartInfo(appPath) { UseShellExecute = true });
+            Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             Application.Current.Shutdown();
-            Environment.Exit(0);
         }
     }
 }
