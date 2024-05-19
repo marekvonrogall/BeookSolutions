@@ -5,11 +5,28 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationIcon>BeookSolutionsAppIcon.ico</ApplicationIcon>
+    <SignAssembly>False</SignAssembly>
+    <Title>BeookSolutions</Title>
+    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\BeookDefaultSplashScreen.bmp" />
+    <None Remove="Resources\BeookSolutionsSplashScreen.bmp" />
+    <None Remove="Resources\NewToolbarItem.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BeookSolutionsAppIcon.ico" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.118" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\BeookDefaultSplashScreen.bmp" />
+    <Resource Include="Resources\BeookSolutionsSplashScreen.bmp" />
+    <Resource Include="Resources\NewToolbarItem.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

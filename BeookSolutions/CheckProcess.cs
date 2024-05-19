@@ -8,12 +8,10 @@ namespace BeookSolutions
         {
             Process[] processes = Process.GetProcessesByName("beook");
 
-            if (processes.Length > 0)
-            {
+            if (processes.Length > 0) {
                 return true;
             }
-            else
-            {
+            else {
                 return false;
             }
         }
@@ -22,8 +20,7 @@ namespace BeookSolutions
         {
             Process[] processes = Process.GetProcessesByName("beook");
 
-            foreach (var process in processes)
-            {
+            foreach (var process in processes) {
                 process.Kill();
             }
         }
