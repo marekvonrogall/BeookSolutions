@@ -1,6 +1,6 @@
 # Beook Solutions
 
-**This program adds a new item to the toolbar that allows solutions to be displayed.**
+**This program adds a new item to the toolbar of [Beook](https://beook.ch/) that allows solutions to be displayed.**
 
 
 ![NewToolbarItem](https://github.com/marekvonrogall/BeookSolutions/assets/110893394/2332a3d5-6a17-4a66-882d-e7304bfe8f6f)
