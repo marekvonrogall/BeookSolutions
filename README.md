@@ -1,8 +1,8 @@
 # Beook Solutions
 
 ## Purpose
-This application is used to add a new toolbar item to "[Beook](https://beook.ch/)", a digital learning platform. When you press the button, the sample solution for the current task is displayed.
-This is useful if you get stuck on a task or are studying for an exam and therefore want to look at the solutions. However, I don't recommend using this tool to skip the learning process by copying from the solutions.
+This application is used to add a new toolbar item to "[Beook](https://beook.ch/)", a digital learning platform. When you press the button, the sample solution for the current exercise is displayed.
+This is useful if you get stuck on a exercise or are studying for an exam and therefore want to look at the solutions. However, I don't recommend using this tool to skip the learning process by copying from the solutions.
 
 ## Requirements
 
