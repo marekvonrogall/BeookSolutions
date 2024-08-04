@@ -11,7 +11,10 @@ namespace BeookSolutions
         public string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ionesoft", "beook", "release", "profiles");
         public List<string> pathsWithSqlite = new List<string>();
 
-        public Database() { GetProfileSQLFiles(); }
+        public Database()
+        {
+            if(Path.Exists(databasePath)) GetProfileSQLFiles();
+        }
 
         public void GetProfileSQLFiles()
         {
@@ -36,6 +39,7 @@ namespace BeookSolutions
         {
             UpdateZValues(true);
         }
+
         public void DeactivateSolutions()
         {
             UpdateZValues(false);
