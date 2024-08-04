@@ -6,18 +6,18 @@
         xmlns:local="clr-namespace:BeookSolutions"
         mc:Ignorable="d"
         Title="Beook Solutions" Height="620" Width="400">
-    <Grid Background="#FFBCC7B8">
+    <Grid x:Name="Grid" Background="#FFC7BBB8">
         <Image HorizontalAlignment="Left" Height="529" Margin="-133,-154,0,0" VerticalAlignment="Top" Width="619" Source="/Resources/wavyCircle.png"/>
         <Image HorizontalAlignment="Left" Height="293" Margin="-82,0,0,0" VerticalAlignment="Top" Width="472" Source="/Resources/BS_icon.png"/>
-        <Button Content="Einrichten" HorizontalAlignment="Center" Margin="0,483,0,0" VerticalAlignment="Top" Height="63" Width="198" Background="White" FontFamily="Century Gothic" FontSize="20">
+        <Button x:Name="ButtonToggleSolutions" Content="Lösungen aktivieren" HorizontalAlignment="Center" Margin="0,484,0,0" VerticalAlignment="Top" Height="64" Width="246" Background="White" FontFamily="Century Gothic" FontSize="20" Click="ButtonToggleSolutions_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <TextBlock HorizontalAlignment="Center" Margin="0,416,0,0" TextWrapping="Wrap" Text="Lass uns zunächst anfangen, Beook Solutions einzurichten." VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Width="250"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,389,0,0" TextWrapping="Wrap" Text="Hallo!" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" FontWeight="Bold"/>
+        <TextBlock x:Name="TextBlockSubtitle" Margin="0,406,0,0" TextWrapping="Wrap" Text="Einrichtung im Gange..." VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Width="380" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,379,0,0" TextWrapping="Wrap" Text="Beook Solutions" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" FontWeight="Bold"/>
 
     </Grid>
 </Window>

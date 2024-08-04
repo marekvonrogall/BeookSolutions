@@ -118,17 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="BeookDefaultSplashScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BeookDefaultSplashScreen.bmp;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="BeookSolutionsSplashScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\BeookSolutionsSplashScreen.bmp;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="BS_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BS_icon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="NewToolbarItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\NewToolbarItem.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="wavyCircle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\wavyCircle.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
