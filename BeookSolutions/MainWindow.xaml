@@ -5,60 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeookSolutions"
         mc:Ignorable="d"
-        Title="Beook Solutions" Height="600" Width="1000">
-    <Grid Background="#FFD3E6C9">
-        <Rectangle HorizontalAlignment="Center" Height="100" Stroke="#FF80A46D" VerticalAlignment="Top" Width="1000" Fill="#FF80A46D"/>
-        <Label Content="Beook Solutions&#xD;&#xA;" HorizontalAlignment="Left" Margin="45,26,0,0" VerticalAlignment="Top" Height="48" Width="231" Foreground="White" FontSize="25" FontWeight="Bold"/>
-        <Canvas x:Name="canvasSetupGuide" Margin="0,100,0,0" Visibility="Hidden">
-            <Label x:Name="labelSetupGetLog" Content="Bitte öffnen Sie Beook um die Einrichtung abzuschliessen.&#xA;" Canvas.Left="79" Canvas.Top="71" Foreground="#FF80A46D" FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Width="842"/>
-            <Label x:Name="labelSetupSubtitle" Content="Du musst dies nur ein Mal tun." Canvas.Left="79" Canvas.Top="114" Foreground="#FF80A46D" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Width="920"/>
-        </Canvas>
-        <Canvas x:Name="canvasNoInstallationFound" Margin="0,100,0,0" Visibility="Hidden">
-            <Label Content="Tut uns leid!&#xD;&#xA;Wir konnten keine Beook-Installation auf Ihrem Computer finden." Canvas.Left="48" Canvas.Top="127" Height="115" Width="952" Foreground="#FF80A46D" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Label Content=":(" Canvas.Left="905" Canvas.Top="348" Foreground="White" FontSize="70" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Content="Du kannst Beook hier herunterladen: https://beook.ch/download" Canvas.Left="48" Canvas.Top="215" Height="75" Width="583" FontSize="20" Foreground="#FF80A46D" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        </Canvas>
-        <Canvas x:Name="canvasSomethingWentWrong" Margin="0,100,0,0" Visibility="Hidden">
-            <Label Content="Tut uns leid!&#xA;Ein unbekannter Fehler ist aufgetreten." Canvas.Left="48" Canvas.Top="127" Height="115" Width="952" Foreground="#FF80A46D" FontSize="25" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Label Content=":(" Canvas.Left="905" Canvas.Top="348" Foreground="White" FontSize="70" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Content="Falls du kürzlich Änderungen an deiner Beook-Installation vorgenommen hast,&#xA;könnte es sinnvoll sein, das Setup erneut durchzuführen." Canvas.Left="48" Canvas.Top="215" Height="75" Width="783" FontSize="20" Foreground="#FF80A46D" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Button Content="Setup durchführen" Canvas.Left="53" Canvas.Top="384" Height="52" Width="696" BorderBrush="#FF80A46D" BorderThickness="3" Foreground="#FF80A46D" Background="White" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Top" Click="buttonResetApplication_Click">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-        </Canvas>
-        <Canvas x:Name="canvasMainApplication" Visibility="Hidden">
-            <Label x:Name="labelSolutionStatus" Content="Rufe Status aus Datenbank ab..." Canvas.Left="203" Canvas.Top="148" Foreground="#FF80A46D" FontSize="30" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="594" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Label Content="Hinweis: Wenn du dein Beook Profil wechselst, musst du das Setup erneut ausführen." Canvas.Left="37" Canvas.Top="504" FontSize="20" Foreground="#FF80A46D" HorizontalAlignment="Center" VerticalAlignment="Top" Width="765"/>
-            <Button x:Name="buttonResetApplication" Content="Seutp ausführen" Canvas.Left="818" Canvas.Top="507" Background="White" BorderBrush="#FF80A46D" BorderThickness="2" Foreground="#FF80A46D" Height="33" Width="141" HorizontalAlignment="Center" VerticalAlignment="Top" Click="buttonResetApplication_Click" FontSize="16">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Image Height="51" Canvas.Left="290" Canvas.Top="291" Width="420" HorizontalAlignment="Center" VerticalAlignment="Top" Source="/Resources/NewToolbarItem.png"/>
-            <Label Content="Dieses Feature fügt der Werkzeugleiste einen neuen Knopf hinzu." Canvas.Left="209" Canvas.Top="240" HorizontalAlignment="Left" VerticalAlignment="Top" Width="582" Foreground="#FF80A46D" FontSize="20"/>
-            <Label x:Name="labelCrossOut" Content="|" Canvas.Left="483" Canvas.Top="281" Height="108" Width="109" Foreground="Red" FontSize="70" RenderTransformOrigin="0.5,0.5" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Label.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="45"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Label.RenderTransform>
-            </Label>
-            <Button x:Name="buttonToggleSolutions" Content="Lösungen aktivieren" Canvas.Left="290" Canvas.Top="355" Height="44" Width="420" BorderBrush="#FF80A46D" BorderThickness="3" Foreground="#FF80A46D" Background="White" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="17" Click="buttonToggleSolutions_Click">
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="5"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-        </Canvas>
+        Title="Beook Solutions" Height="620" Width="400">
+    <Grid Background="#FFBCC7B8">
+        <Image HorizontalAlignment="Left" Height="529" Margin="-133,-154,0,0" VerticalAlignment="Top" Width="619" Source="/Resources/wavyCircle.png"/>
+        <Image HorizontalAlignment="Left" Height="293" Margin="-82,0,0,0" VerticalAlignment="Top" Width="472" Source="/Resources/BS_icon.png"/>
+        <Button Content="Einrichten" HorizontalAlignment="Center" Margin="0,483,0,0" VerticalAlignment="Top" Height="63" Width="198" Background="White" FontFamily="Century Gothic" FontSize="20">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <TextBlock HorizontalAlignment="Center" Margin="0,416,0,0" TextWrapping="Wrap" Text="Lass uns zunächst anfangen, Beook Solutions einzurichten." VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Width="250"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,389,0,0" TextWrapping="Wrap" Text="Hallo!" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" FontWeight="Bold"/>
+
     </Grid>
 </Window>

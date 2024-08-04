@@ -13,7 +13,9 @@
   <ItemGroup>
     <None Remove="Resources\BeookDefaultSplashScreen.bmp" />
     <None Remove="Resources\BeookSolutionsSplashScreen.bmp" />
+    <None Remove="Resources\BS_icon.png" />
     <None Remove="Resources\NewToolbarItem.png" />
+    <None Remove="Resources\wavyCircle.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BeookSolutionsAppIcon.ico" />
@@ -26,7 +28,9 @@
   <ItemGroup>
     <Resource Include="Resources\BeookDefaultSplashScreen.bmp" />
     <Resource Include="Resources\BeookSolutionsSplashScreen.bmp" />
+    <Resource Include="Resources\BS_icon.png" />
     <Resource Include="Resources\NewToolbarItem.png" />
+    <Resource Include="Resources\wavyCircle.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
