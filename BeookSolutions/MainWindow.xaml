@@ -8,7 +8,7 @@
         Title="Beook Solutions" Height="620" Width="400">
     <Grid x:Name="Grid" Background="#FFC7BBB8">
         <Image HorizontalAlignment="Left" Height="529" Margin="-133,-154,0,0" VerticalAlignment="Top" Width="619" Source="/Resources/wavyCircle.png"/>
-        <Image HorizontalAlignment="Left" Height="293" Margin="-82,0,0,0" VerticalAlignment="Top" Width="472" Source="/Resources/BS_icon.png"/>
+        <Image HorizontalAlignment="Left" Height="293" Margin="-10,4,0,0" VerticalAlignment="Top" Width="307" Source="/Resources/BeookSolutions.png"/>
         <Button x:Name="ButtonToggleSolutions" Content="Lösungen aktivieren" HorizontalAlignment="Center" Margin="0,484,0,0" VerticalAlignment="Top" Height="64" Width="246" Background="White" FontFamily="Century Gothic" FontSize="20" Click="ButtonToggleSolutions_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
