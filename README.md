@@ -24,7 +24,7 @@ There are two download options available:
   
 If the Portable Version doesn't work for you, try using the Installer Version instead.
 
-Download either version from the [releases page](https://github.com/marekvonrogall/BeookSolutions/releases) or from the [Beook Solutions Website.](https://marekvonrogall.github.io/BeookSolutions/).
+Download either version from the [releases page](https://github.com/marekvonrogall/BeookSolutions/releases) or from the [Beook Solutions Website](https://marekvonrogall.github.io/BeookSolutions/).
 
 ## Disclaimer of Affiliation with Ionesoft
 This app, "Beook Solutions", is an independent product and is not affiliated with Ionesoft, the publisher and developer of Beook. The use of the word "Beook" does not imply any official approval or partnership with Ionesoft.
