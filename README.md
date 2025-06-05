@@ -60,13 +60,21 @@ find /home/$USER/.wine/drive_c/users/$(ls /home/$USER/.wine/drive_c/users | head
 #### Lokale Docker-Installation
 
 Die BeookSolutions API kann auch lokal mittels Docker betrieben werden.
-Klonen Sie dazu das Projekt und führen Sie es in Docker aus:
+
+Klonen Sie dazu das Docker-Image von GHCR und starten Sie den Container:
+
+```bash
+docker pull ghcr.io/marekvonrogall/tools/beook-solutions:latest
+docker run -it -p 5000:5000 ghcr.io/marekvonrogall/tools/beook-solutions:latest
+```
+
+Alternativ können Sie auch das Projekt selbst klonen und mit Docker bauen und ausführen:
 
 ```bash
 git clone https://github.com/marekvonrogall/beooksolutions-cli.git
 cd beooksolutions-cli
-docker build -t beooksolutions-cli .
-docker run -it -p 5000:5000 beooksolutions-cli
+docker build -t beook-solutions .
+docker run -it -p 5000:5000 beook-solutions
 ```
 
 Nun können dieselben Schritte wie bei der Verwendung der webbasierten "BeookSolutions API" angewandt werden. Die Anfragen sollten nun jedoch nicht mehr an `https://tools.vrmarek.me/beook`, sondern an `http://localhost:5000/Solution` gesendet werden.
