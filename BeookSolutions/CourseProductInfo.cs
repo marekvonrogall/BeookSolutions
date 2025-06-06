@@ -1,0 +1,10 @@
+﻿namespace BeookSolutions
+{
+    public class CourseProductInfo
+    {
+        public int ZEPRODUCT { get; set; }
+        public string ZCOURSEIDENTIFIER { get; set; }
+        public string ZCOURSEREFERENCE { get; set; }
+        public bool ZKEY { get; set; }
+    }
+}

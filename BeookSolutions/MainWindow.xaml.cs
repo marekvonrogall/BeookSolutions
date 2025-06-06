@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 
@@ -11,6 +12,7 @@ namespace BeookSolutions
     {
         Database database = new Database();
         CheckProcess process = new CheckProcess();
+        List<CourseProductInfo> courseProductInfos = new List<CourseProductInfo>();
 
         public MainWindow()
         {
@@ -54,6 +56,8 @@ namespace BeookSolutions
 
         private void ToggleUIElements()
         {
+            courseProductInfos = database.GetCourseProductInfo();
+
             if (database.CheckZValues())
             {
                 TextBlockSubtitle.Text = "Lösungen sind aktuell aktiviert!";
