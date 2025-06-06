@@ -1,24 +1,21 @@
-﻿using System.Globalization;
-using System.Windows.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Windows.Data;
 
 namespace BeookSolutions
 {
-    public class BoolToOnOffConverter : IValueConverter
+    public class CourseBookHasSolutionsConverter : IValueConverter
     {
         private static readonly List<int> CourseBooksWithoutSolutions = new List<int> { 42 };
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is CourseBookInfo courseBook)
             {
-                if (CourseBooksWithoutSolutions.Contains(courseBook.ZEPRODUCT))
-                    return "N/A";
-
-                return courseBook.ZVALUE ? "ON" : "OFF";
+                return !CourseBooksWithoutSolutions.Contains(courseBook.ZEPRODUCT);
             }
 
-            return "OFF";
+            return true;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
