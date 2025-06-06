@@ -5,19 +5,106 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BeookSolutions"
         mc:Ignorable="d"
-        Title="Beook Solutions" Height="620" Width="400">
+        Title="Beook Solutions" Height="620" Width="400" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <local:BoolToOnOffConverter x:Key="BoolToOnOffConverter"/>
+
+        <Style TargetType="ToggleButton" x:Key="GlobalToggleButtonStyle">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="28,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <!-- ON state -->
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="#FFBCC7B8"/>
+                </Trigger>
+                <!-- OFF state -->
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Background" Value="#FFC7BBB8"/>
+                </Trigger>
+                <!-- Hover when ON -->
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsChecked" Value="True"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#A0C2AA"/>
+                </MultiTrigger>
+                <!-- Hover when OFF -->
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsChecked" Value="False"/>
+                        <Condition Property="IsMouseOver" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Background" Value="#BFA8A2"/>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="ToggleButton" x:Key="SingleToggleButtonStyle">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="28,0,0,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="5" ShadowDepth="2" Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#D3D3D3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid x:Name="Grid" Background="#FFC7BBB8">
         <Image HorizontalAlignment="Left" Height="529" Margin="-133,-154,0,0" VerticalAlignment="Top" Width="619" Source="/Resources/wavyCircle.png"/>
         <Image HorizontalAlignment="Left" Height="293" Margin="-10,4,0,0" VerticalAlignment="Top" Width="307" Source="/Resources/BeookSolutions.png"/>
-        <Button x:Name="ButtonToggleSolutions" Content="Lösungen aktivieren" HorizontalAlignment="Center" Margin="0,484,0,0" VerticalAlignment="Top" Height="64" Width="246" Background="White" FontFamily="Century Gothic" FontSize="20" Click="ButtonToggleSolutions_Click">
-            <Button.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="5"/>
-                </Style>
-            </Button.Resources>
-        </Button>
-        <TextBlock x:Name="TextBlockSubtitle" Margin="0,406,0,0" TextWrapping="Wrap" Text="Einrichtung im Gange..." VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Width="380" HorizontalAlignment="Center" TextAlignment="Center"/>
-        <TextBlock HorizontalAlignment="Center" Margin="0,379,0,0" TextWrapping="Wrap" Text="Beook Solutions" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" FontWeight="Bold"/>
-
+        <ToggleButton x:Name="ButtonToggleSolutions" Content="T/A" HorizontalAlignment="Right" Margin="0,320,23,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="12" Click="ButtonToggleSolutions_Click" Style="{StaticResource SingleToggleButtonStyle}" />
+        <TextBlock x:Name="TextBlockSubtitle" Margin="0,430,0,0" TextWrapping="Wrap" Text="Einrichtung im Gange..." VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Width="380" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <TextBlock HorizontalAlignment="Left" Margin="67,230,0,0" TextWrapping="Wrap" Text="Beook Solutions" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" FontWeight="Bold"/>
+        <ScrollViewer Margin="10,350,10,10" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="BooksList" FontFamily="Century Gothic">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="5" Padding="8" Background="White" CornerRadius="6">
+                            <DockPanel VerticalAlignment="Center">
+                                <TextBlock FontSize="12" Width="50" VerticalAlignment="Center" Text="{Binding ZCOURSEIDENTIFIER}" ToolTip="{Binding ZCOURSEREFERENCE}" Cursor="Help"/>
+                                <TextBlock FontSize="12" Width="200" Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding ZTITLE}"/>
+                                <ToggleButton FontSize="12" Width="50" Height="20" Margin="28,0,0,0" VerticalAlignment="Center" IsChecked="{Binding ZKEY, Mode=TwoWay}" Content="{Binding ZKEY, Converter={StaticResource BoolToOnOffConverter}}" Style="{StaticResource GlobalToggleButtonStyle}"/>
+                            </DockPanel>
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="3" Opacity="0.3"/>
+                            </Border.Effect>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Window>

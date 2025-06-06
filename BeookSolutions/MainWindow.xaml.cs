@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -17,6 +18,7 @@ namespace BeookSolutions
         public MainWindow()
         {
             InitializeComponent();
+            Grid.Background = new SolidColorBrush(Color.FromRgb(220, 210, 180));
             Setup();
         }
 
@@ -54,6 +56,7 @@ namespace BeookSolutions
             ToggleUIElements();
         }
 
+        /*
         private void ToggleUIElements()
         {
             courseBookInfo = database.GetCourseBookInfo();
@@ -69,6 +72,38 @@ namespace BeookSolutions
                 TextBlockSubtitle.Text = "Lösungen sind aktuell deaktiviert!";
                 Grid.Background = new SolidColorBrush(Color.FromRgb(199, 187, 184));
                 ButtonToggleSolutions.Content = "Lösungen aktivieren";
+            }
+        }
+        */
+
+        private void ToggleUIElements()
+        {
+            courseBookInfo = database.GetCourseBookInfo();
+
+            if (courseBookInfo.Count == 0)
+            {
+                TextBlockSubtitle.Text = "Es wurden keine Lehrmittel gefunden.";
+                ButtonToggleSolutions.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                TextBlockSubtitle.Text = "";
+                ButtonToggleSolutions.Visibility = Visibility.Visible;
+                BooksList.ItemsSource = courseBookInfo;
+
+                /*
+                if (courseBookInfo.All(c => c.ZKEY))
+                {
+                    Grid.Background = new SolidColorBrush(Color.FromRgb(188, 199, 184));
+                }
+                else if (courseBookInfo.All(c => !c.ZKEY))
+                {
+                    Grid.Background = new SolidColorBrush(Color.FromRgb(199, 187, 184));
+                }
+                else
+                {
+                    Grid.Background = new SolidColorBrush(Color.FromRgb(220, 210, 180));
+                }*/
             }
         }
 
