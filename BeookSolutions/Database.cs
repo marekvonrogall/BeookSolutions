@@ -35,16 +35,6 @@ namespace BeookSolutions
             }
         }
 
-        public void ActivateSolutions()
-        {
-            //UpdateZValues(true);
-        }
-
-        public void DeactivateSolutions()
-        {
-            //UpdateZValues(false);
-        }
-
         public void UpdateZValueForCourseBook(int zeProduct, bool newValue)
         {
             try
@@ -112,7 +102,7 @@ namespace BeookSolutions
         public List<CourseBookInfo> GetCourseBookInfo()
         {
             var courseProductInfos = new List<CourseBookInfo>();
-            var zKeys = new Dictionary<int, bool>();
+            var zValues = new Dictionary<int, bool>();
 
             try
             {
@@ -137,17 +127,17 @@ namespace BeookSolutions
                             {
                                 int zeproduct = reader.GetInt32(0);
                                 string zvalueStr = reader.IsDBNull(1) ? "false" : reader.GetString(1);
-                                bool zKey = zvalueStr.Trim().ToLower() == "true";
+                                bool zValue = zvalueStr.Trim().ToLower() == "true";
 
-                                if (!zKeys.ContainsKey(zeproduct))
-                                    zKeys.Add(zeproduct, zKey);
+                                if (!zValues.ContainsKey(zeproduct))
+                                    zValues.Add(zeproduct, zValue);
                             }
                         }
 
                         // Get course details from ZILPCOURSEPRODUCT and ZTITLE from ZILPCOURSESERIES
-                        if (zKeys.Count > 0)
+                        if (zValues.Count > 0)
                         {
-                            string placeholderList = string.Join(",", zKeys.Keys);
+                            string placeholderList = string.Join(",", zValues.Keys);
                             string selectCourseProduct = $@"
                                 SELECT p.ZEPRODUCT, p.ZCOURSEIDENTIFIER, p.ZCOURSEREFERENCE, s.ZTITLE
                                 FROM ZILPCOURSEPRODUCT p
@@ -170,7 +160,7 @@ namespace BeookSolutions
                                         ZCOURSEIDENTIFIER = courseIdentifier,
                                         ZCOURSEREFERENCE = courseReference,
                                         ZTITLE = title,
-                                        ZKEY = zKeys.TryGetValue(zeproduct, out bool value) && value
+                                        ZVALUE = zValues.TryGetValue(zeproduct, out bool value) && value
                                     });
                                 }
                             }

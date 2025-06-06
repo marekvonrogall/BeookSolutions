@@ -45,40 +45,20 @@ namespace BeookSolutions
         private void ButtonToggleSolutions_Click(object sender, RoutedEventArgs e)
         {
             CloseBeook();
-            if (database.CheckZValues())
+            foreach (var courseBook in courseBookInfo)
             {
-                database.DeactivateSolutions();
-            }
-            else
-            {
-                database.ActivateSolutions();
+                int zeProduct = courseBook.ZEPRODUCT;
+                bool newValue = !courseBook.ZVALUE;
+
+                database.UpdateZValueForCourseBook(zeProduct, newValue);
             }
 
             ToggleUIElements();
         }
 
-        /*
-        private void ToggleUIElements()
-        {
-            courseBookInfo = database.GetCourseBookInfo();
-
-            if (database.CheckZValues())
-            {
-                TextBlockSubtitle.Text = "Lösungen sind aktuell aktiviert!";
-                Grid.Background = new SolidColorBrush(Color.FromRgb(188, 199, 184));
-                ButtonToggleSolutions.Content = "Lösungen deaktivieren";
-            }
-            else
-            {
-                TextBlockSubtitle.Text = "Lösungen sind aktuell deaktiviert!";
-                Grid.Background = new SolidColorBrush(Color.FromRgb(199, 187, 184));
-                ButtonToggleSolutions.Content = "Lösungen aktivieren";
-            }
-        }
-        */
-
         private void ToggleButtonCourseBook_CheckedChanged(object sender, RoutedEventArgs e)
         {
+            CloseBeook();
             if (sender is ToggleButton toggle)
             {
                 if (toggle.DataContext is CourseBookInfo courseBook)
@@ -107,11 +87,11 @@ namespace BeookSolutions
                 ButtonToggleSolutions.Visibility = Visibility.Visible;
                 BooksList.ItemsSource = courseBookInfo;
 
-                if (courseBookInfo.All(c => c.ZKEY))
+                if (courseBookInfo.All(c => c.ZVALUE))
                 {
                     Grid.Background = new SolidColorBrush(Color.FromRgb(188, 199, 184));
                 }
-                else if (courseBookInfo.All(c => !c.ZKEY))
+                else if (courseBookInfo.All(c => !c.ZVALUE))
                 {
                     Grid.Background = new SolidColorBrush(Color.FromRgb(199, 187, 184));
                 }
