@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace BeookSolutions
@@ -75,6 +75,20 @@ namespace BeookSolutions
             }
         }
         */
+
+        private void ToggleButtonCourseBook_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton toggle)
+            {
+                if (toggle.DataContext is CourseBookInfo courseBook)
+                {
+                    int zeProduct = courseBook.ZEPRODUCT;
+                    bool newValue = toggle.IsChecked == true;
+
+                    database.UpdateZValueForCourseBook(zeProduct, newValue);
+                }
+            }
+        }
 
         private void ToggleUIElements()
         {

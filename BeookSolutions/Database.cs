@@ -3,7 +3,6 @@ using System.Data.SQLite;
 using System.Windows;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BeookSolutions
 {
@@ -38,35 +37,40 @@ namespace BeookSolutions
 
         public void ActivateSolutions()
         {
-            UpdateZValues(true);
+            //UpdateZValues(true);
         }
 
         public void DeactivateSolutions()
         {
-            UpdateZValues(false);
+            //UpdateZValues(false);
         }
 
-        public void UpdateZValues(bool newValue)
+        public void UpdateZValueForCourseBook(int zeProduct, bool newValue)
         {
             try
             {
-                foreach(string path in pathsWithSqlite)
+                foreach (string path in pathsWithSqlite)
                 {
                     string connectionString = $"Data Source={path};Version=3;";
 
-                    string updateStatement = $"UPDATE ZILPPROPERTY SET ZVALUE = '{newValue}' WHERE ZKEY = 'toolbarExerciseAnswerSolutionToggle';";
+                    string updateStatement = @"
+                        UPDATE ZILPPROPERTY
+                        SET ZVALUE = @newValue
+                        WHERE ZKEY = 'toolbarExerciseAnswerSolutionToggle'
+                        AND ZEPRODUCT = @zeProduct;";
 
                     using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                     {
                         connection.Open();
                         using (SQLiteCommand command = new SQLiteCommand(updateStatement, connection))
                         {
+                            command.Parameters.AddWithValue("@newValue", newValue ? "true" : "false");
+                            command.Parameters.AddWithValue("@zeProduct", zeProduct);
+
                             int rowsAffected = command.ExecuteNonQuery();
-                            Console.WriteLine($"{rowsAffected} rows updated.");
                         }
                     }
                 }
-                
             }
             catch
             {
