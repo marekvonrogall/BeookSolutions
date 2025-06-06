@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Linq;
 
 namespace BeookSolutions
 {
@@ -86,6 +87,7 @@ namespace BeookSolutions
                     bool newValue = toggle.IsChecked == true;
 
                     database.UpdateZValueForCourseBook(zeProduct, newValue);
+                    ToggleUIElements();
                 }
             }
         }
@@ -105,7 +107,6 @@ namespace BeookSolutions
                 ButtonToggleSolutions.Visibility = Visibility.Visible;
                 BooksList.ItemsSource = courseBookInfo;
 
-                /*
                 if (courseBookInfo.All(c => c.ZKEY))
                 {
                     Grid.Background = new SolidColorBrush(Color.FromRgb(188, 199, 184));
@@ -117,7 +118,7 @@ namespace BeookSolutions
                 else
                 {
                     Grid.Background = new SolidColorBrush(Color.FromRgb(220, 210, 180));
-                }*/
+                }
             }
         }
 
