@@ -1,6 +1,6 @@
 ﻿namespace BeookSolutions
 {
-    public class CourseProductInfo
+    public class CourseBookInfo
     {
         public int ZEPRODUCT { get; set; }
         public string ZCOURSEIDENTIFIER { get; set; }

@@ -12,7 +12,7 @@ namespace BeookSolutions
     {
         Database database = new Database();
         CheckProcess process = new CheckProcess();
-        List<CourseProductInfo> courseProductInfos = new List<CourseProductInfo>();
+        List<CourseBookInfo> courseBookInfo = new List<CourseBookInfo>();
 
         public MainWindow()
         {
@@ -56,7 +56,7 @@ namespace BeookSolutions
 
         private void ToggleUIElements()
         {
-            courseProductInfos = database.GetCourseProductInfo();
+            courseBookInfo = database.GetCourseBookInfo();
 
             if (database.CheckZValues())
             {

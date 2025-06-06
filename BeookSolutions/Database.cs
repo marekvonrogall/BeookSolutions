@@ -105,9 +105,9 @@ namespace BeookSolutions
             }
         }
 
-        public List<CourseProductInfo> GetCourseProductInfo()
+        public List<CourseBookInfo> GetCourseBookInfo()
         {
-            var courseProductInfos = new List<CourseProductInfo>();
+            var courseProductInfos = new List<CourseBookInfo>();
             var zKeys = new Dictionary<int, bool>();
 
             try
@@ -160,7 +160,7 @@ namespace BeookSolutions
                                     string courseReference = reader.IsDBNull(2) ? null : reader.GetString(2);
                                     string title = reader.IsDBNull(3) ? null : reader.GetString(3);
 
-                                    courseProductInfos.Add(new CourseProductInfo
+                                    courseProductInfos.Add(new CourseBookInfo
                                     {
                                         ZEPRODUCT = zeproduct,
                                         ZCOURSEIDENTIFIER = courseIdentifier,
@@ -179,7 +179,7 @@ namespace BeookSolutions
             catch
             {
                 MessageBox.Show("Schliessen Sie Beook und versuchen Sie es erneut.", "Ein Fehler ist aufgetreten.");
-                return new List<CourseProductInfo>();
+                return new List<CourseBookInfo>();
             }
         }
     }
