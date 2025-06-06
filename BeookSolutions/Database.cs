@@ -3,6 +3,7 @@ using System.Data.SQLite;
 using System.Windows;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BeookSolutions
 {
@@ -154,6 +155,8 @@ namespace BeookSolutions
                                     string courseReference = reader.IsDBNull(2) ? null : reader.GetString(2);
                                     string title = reader.IsDBNull(3) ? null : reader.GetString(3);
 
+                                    title = ZTitleNamingCorrection(title, courseIdentifier);
+
                                     courseProductInfos.Add(new CourseBookInfo
                                     {
                                         ZEPRODUCT = zeproduct,
@@ -168,13 +171,30 @@ namespace BeookSolutions
                     }
                 }
 
-                return courseProductInfos;
+                return courseProductInfos.OrderBy(c => c.ZTITLE).ToList();
             }
             catch
             {
                 MessageBox.Show("Schliessen Sie Beook und versuchen Sie es erneut.", "Ein Fehler ist aufgetreten.");
                 return new List<CourseBookInfo>();
             }
+        }
+
+        private string ZTitleNamingCorrection(string title, string courseIdentifier)
+        {
+            //ZTITLE vom Lehrmittel FUR1 ist "Finanz- und Rechnungswesen" > 1 fehlt.
+            if (title == "Finanz- und Rechnungswesen" && courseIdentifier == "FUR1")
+            {
+                return title + " 1";
+            }
+
+            //ZTITLE vom Lehrmittel FUR2 ist "Finanz- und Rechnungswesen" > 2 fehlt.
+            if (title == "Finanz- und Rechnungswesen" && courseIdentifier == "FUR2")
+            {
+                return title + " 2";
+            }
+
+            return title;
         }
     }
 }
