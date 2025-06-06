@@ -11,7 +11,6 @@ namespace BeookSolutions
     {
         public string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ionesoft", "beook", "release", "profiles");
         private List<string> pathsWithSqlite = new List<string>();
-        private List<int> knownFaultyZeProducts = new List<int> { 75 };
 
         public Database()
         {
@@ -133,14 +132,15 @@ namespace BeookSolutions
                                 bool zValue = zvalueStr.Trim().ToLower() == "true";
 
                                 // Collect faulty entries to handle later
-                                if (knownFaultyZeProducts.Contains(zeProduct))
+                                if (AppConstants.KnownFaultyZeProducts.ContainsKey(zeProduct))
                                 {
-                                    int corrected = HandleKnownFaultyZeProduct(zeProduct);
-                                    if (corrected == -1) continue;
+                                    if (AppConstants.KnownFaultyZeProducts.TryGetValue(zeProduct, out int correctedZeProduct))
+                                    {
+                                        zeProduct = correctedZeProduct;
+                                    }
 
-                                    zeProduct = corrected;
                                     zValue = false;
-                                    toFix.Add(corrected);
+                                    toFix.Add(zeProduct);
                                 }
 
                                 if (!zValues.ContainsKey(zeProduct))
@@ -195,15 +195,6 @@ namespace BeookSolutions
                 MessageBox.Show("Schliessen Sie Beook und versuchen Sie es erneut.", "Ein Fehler ist aufgetreten.");
                 return new List<CourseBookInfo>();
             }
-        }
-
-        private int HandleKnownFaultyZeProduct(int faultyZeProduct)
-        {
-            return faultyZeProduct switch
-            {
-                75 => 42,
-                _ => -1
-            };
         }
 
         private string ZTitleNamingCorrection(string title, string courseIdentifier)

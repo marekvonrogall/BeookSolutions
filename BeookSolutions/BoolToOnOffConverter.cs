@@ -1,18 +1,16 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 using System;
-using System.Collections.Generic;
 
 namespace BeookSolutions
 {
     public class BoolToOnOffConverter : IValueConverter
     {
-        private static readonly List<int> CourseBooksWithoutSolutions = new List<int> { 42 };
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is CourseBookInfo courseBook)
             {
-                if (CourseBooksWithoutSolutions.Contains(courseBook.ZEPRODUCT))
+                if (AppConstants.CourseBooksWithoutSolutions.Contains(courseBook.ZEPRODUCT))
                     return "N/A";
 
                 return courseBook.ZVALUE ? "ON" : "OFF";

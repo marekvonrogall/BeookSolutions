@@ -48,6 +48,9 @@ namespace BeookSolutions
             foreach (var courseBook in courseBookInfo)
             {
                 int zeProduct = courseBook.ZEPRODUCT;
+                if (AppConstants.CourseBooksWithoutSolutions.Contains(zeProduct))
+                    continue;
+
                 bool newValue = !courseBook.ZVALUE;
 
                 database.UpdateZValueForCourseBook(zeProduct, newValue);
@@ -87,11 +90,15 @@ namespace BeookSolutions
                 ButtonToggleSolutions.Visibility = Visibility.Visible;
                 BooksList.ItemsSource = courseBookInfo;
 
-                if (courseBookInfo.All(c => c.ZVALUE))
+                var relevantBooks = courseBookInfo
+                    .Where(c => !AppConstants.CourseBooksWithoutSolutions.Contains(c.ZEPRODUCT))
+                    .ToList();
+
+                if (relevantBooks.All(c => c.ZVALUE))
                 {
                     Grid.Background = new SolidColorBrush(Color.FromRgb(188, 199, 184));
                 }
-                else if (courseBookInfo.All(c => !c.ZVALUE))
+                else if (relevantBooks.All(c => !c.ZVALUE))
                 {
                     Grid.Background = new SolidColorBrush(Color.FromRgb(199, 187, 184));
                 }
