@@ -150,20 +150,21 @@ namespace BeookSolutions
                             {
                                 while (reader.Read())
                                 {
-                                    int zeproduct = reader.GetInt32(0);
+                                    int zeProduct = reader.GetInt32(0);
                                     string courseIdentifier = reader.IsDBNull(1) ? null : reader.GetString(1);
                                     string courseReference = reader.IsDBNull(2) ? null : reader.GetString(2);
                                     string title = reader.IsDBNull(3) ? null : reader.GetString(3);
 
+                                    courseIdentifier = ZCourseIdentifierNamingCorrection(zeProduct, courseIdentifier);
                                     title = ZTitleNamingCorrection(title, courseIdentifier);
 
                                     courseProductInfos.Add(new CourseBookInfo
                                     {
-                                        ZEPRODUCT = zeproduct,
+                                        ZEPRODUCT = zeProduct,
                                         ZCOURSEIDENTIFIER = courseIdentifier,
                                         ZCOURSEREFERENCE = courseReference,
                                         ZTITLE = title,
-                                        ZVALUE = zValues.TryGetValue(zeproduct, out bool value) && value
+                                        ZVALUE = zValues.TryGetValue(zeProduct, out bool value) && value
                                     });
                                 }
                             }
@@ -180,6 +181,17 @@ namespace BeookSolutions
             }
         }
 
+        private string ZCourseIdentifierNamingCorrection(int zeProduct, string courseIdentifier)
+        {
+            //ZEPRODUCT Nr. 75 ist "RE"  > sollte "BWL" sein.
+            if (zeProduct == 75 && courseIdentifier == "RE")
+            {
+                return "BWL";
+            }
+
+            return courseIdentifier;
+        }
+
         private string ZTitleNamingCorrection(string title, string courseIdentifier)
         {
             //ZTITLE vom Lehrmittel FUR1 ist "Finanz- und Rechnungswesen" > 1 fehlt.
@@ -192,6 +204,12 @@ namespace BeookSolutions
             if (title == "Finanz- und Rechnungswesen" && courseIdentifier == "FUR2")
             {
                 return title + " 2";
+            }
+
+            //ZTITLE vom Lehrmittel BWL ist "Recht" > sollte "Betriebswirtschaftslehre" sein.
+            if (title == "Recht" && courseIdentifier == "BWL")
+            {
+                return "Betriebswirtschaftslehre";
             }
 
             return title;
