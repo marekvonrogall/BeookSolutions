@@ -3,6 +3,7 @@ using System.Data.SQLite;
 using System.Windows;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BeookSolutions
 {
@@ -139,14 +140,15 @@ namespace BeookSolutions
                             }
                         }
 
-                        // Get course details from ZILPCOURSEPRODUCT
+                        // Get course details from ZILPCOURSEPRODUCT and ZTITLE from ZILPCOURSESERIES
                         if (zKeys.Count > 0)
                         {
                             string placeholderList = string.Join(",", zKeys.Keys);
                             string selectCourseProduct = $@"
-                                SELECT ZEPRODUCT, ZCOURSEIDENTIFIER, ZCOURSEREFERENCE
-                                FROM ZILPCOURSEPRODUCT
-                                WHERE ZEPRODUCT IN ({placeholderList});";
+                                SELECT p.ZEPRODUCT, p.ZCOURSEIDENTIFIER, p.ZCOURSEREFERENCE, s.ZTITLE
+                                FROM ZILPCOURSEPRODUCT p
+                                LEFT JOIN ZILPCOURSESERIES s ON p.ZCOURSEIDENTIFIER = s.ZCOURSEIDENTIFIER
+                                WHERE p.ZEPRODUCT IN ({placeholderList});";
 
                             using (var command = new SQLiteCommand(selectCourseProduct, connection))
                             using (var reader = command.ExecuteReader())
@@ -154,12 +156,16 @@ namespace BeookSolutions
                                 while (reader.Read())
                                 {
                                     int zeproduct = reader.GetInt32(0);
+                                    string courseIdentifier = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                    string courseReference = reader.IsDBNull(2) ? null : reader.GetString(2);
+                                    string title = reader.IsDBNull(3) ? null : reader.GetString(3);
 
                                     courseProductInfos.Add(new CourseProductInfo
                                     {
                                         ZEPRODUCT = zeproduct,
-                                        ZCOURSEIDENTIFIER = reader.IsDBNull(1) ? null : reader.GetString(1),
-                                        ZCOURSEREFERENCE = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                        ZCOURSEIDENTIFIER = courseIdentifier,
+                                        ZCOURSEREFERENCE = courseReference,
+                                        ZTITLE = title,
                                         ZKEY = zKeys.TryGetValue(zeproduct, out bool value) && value
                                     });
                                 }
