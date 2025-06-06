@@ -88,7 +88,7 @@
         <ToggleButton x:Name="ButtonToggleSolutions" Content="T/A" HorizontalAlignment="Right" Margin="0,320,23,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="12" Click="ButtonToggleSolutions_Click" Style="{StaticResource SingleToggleButtonStyle}" />
         <TextBlock x:Name="TextBlockSubtitle" Margin="0,430,0,0" TextWrapping="Wrap" Text="Einrichtung im Gange..." VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Width="380" HorizontalAlignment="Center" TextAlignment="Center"/>
         <TextBlock HorizontalAlignment="Left" Margin="67,230,0,0" TextWrapping="Wrap" Text="Beook Solutions" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" FontWeight="Bold"/>
-        <ScrollViewer Margin="10,350,10,10" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Margin="10,350,10,10" VerticalScrollBarVisibility="Hidden">
             <ItemsControl x:Name="BooksList" FontFamily="Century Gothic">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

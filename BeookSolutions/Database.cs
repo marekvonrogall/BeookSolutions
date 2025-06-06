@@ -10,7 +10,8 @@ namespace BeookSolutions
     public class Database
     {
         public string databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ionesoft", "beook", "release", "profiles");
-        public List<string> pathsWithSqlite = new List<string>();
+        private List<string> pathsWithSqlite = new List<string>();
+        private List<int> knownFaultyZeProducts = new List<int> { 75 };
 
         public Database()
         {
@@ -104,6 +105,7 @@ namespace BeookSolutions
         {
             var courseProductInfos = new List<CourseBookInfo>();
             var zValues = new Dictionary<int, bool>();
+            var toFix = new List<int>();
 
             try
             {
@@ -126,13 +128,29 @@ namespace BeookSolutions
                         {
                             while (reader.Read())
                             {
-                                int zeproduct = reader.GetInt32(0);
+                                int zeProduct = reader.GetInt32(0);
                                 string zvalueStr = reader.IsDBNull(1) ? "false" : reader.GetString(1);
                                 bool zValue = zvalueStr.Trim().ToLower() == "true";
 
-                                if (!zValues.ContainsKey(zeproduct))
-                                    zValues.Add(zeproduct, zValue);
+                                // Collect faulty entries to handle later
+                                if (knownFaultyZeProducts.Contains(zeProduct))
+                                {
+                                    int corrected = HandleKnownFaultyZeProduct(zeProduct);
+                                    if (corrected == -1) continue;
+
+                                    zeProduct = corrected;
+                                    zValue = false;
+                                    toFix.Add(corrected);
+                                }
+
+                                if (!zValues.ContainsKey(zeProduct))
+                                    zValues.Add(zeProduct, zValue);
                             }
+                        }
+
+                        foreach (int zeProduct in toFix.Distinct())
+                        {
+                            CreateSolutionToolbarToggle(zeProduct);
                         }
 
                         // Get course details from ZILPCOURSEPRODUCT and ZTITLE from ZILPCOURSESERIES
@@ -154,8 +172,6 @@ namespace BeookSolutions
                                     string courseIdentifier = reader.IsDBNull(1) ? null : reader.GetString(1);
                                     string courseReference = reader.IsDBNull(2) ? null : reader.GetString(2);
                                     string title = reader.IsDBNull(3) ? null : reader.GetString(3);
-
-                                    courseIdentifier = ZCourseIdentifierNamingCorrection(zeProduct, courseIdentifier);
                                     title = ZTitleNamingCorrection(title, courseIdentifier);
 
                                     courseProductInfos.Add(new CourseBookInfo
@@ -181,38 +197,85 @@ namespace BeookSolutions
             }
         }
 
-        private string ZCourseIdentifierNamingCorrection(int zeProduct, string courseIdentifier)
+        private int HandleKnownFaultyZeProduct(int faultyZeProduct)
         {
-            //ZEPRODUCT Nr. 75 ist "RE"  > sollte "BWL" sein.
-            if (zeProduct == 75 && courseIdentifier == "RE")
+            return faultyZeProduct switch
             {
-                return "BWL";
-            }
-
-            return courseIdentifier;
+                75 => 42,
+                _ => -1
+            };
         }
 
         private string ZTitleNamingCorrection(string title, string courseIdentifier)
         {
-            //ZTITLE vom Lehrmittel FUR1 ist "Finanz- und Rechnungswesen" > 1 fehlt.
+            // ZTITLE vom Lehrmittel FUR1 ist "Finanz- und Rechnungswesen" > 1 fehlt.
             if (title == "Finanz- und Rechnungswesen" && courseIdentifier == "FUR1")
             {
                 return title + " 1";
             }
 
-            //ZTITLE vom Lehrmittel FUR2 ist "Finanz- und Rechnungswesen" > 2 fehlt.
+            // ZTITLE vom Lehrmittel FUR2 ist "Finanz- und Rechnungswesen" > 2 fehlt.
             if (title == "Finanz- und Rechnungswesen" && courseIdentifier == "FUR2")
             {
                 return title + " 2";
             }
 
-            //ZTITLE vom Lehrmittel BWL ist "Recht" > sollte "Betriebswirtschaftslehre" sein.
-            if (title == "Recht" && courseIdentifier == "BWL")
-            {
-                return "Betriebswirtschaftslehre";
-            }
-
             return title;
+        }
+
+        public void CreateSolutionToolbarToggle(int zeProduct)
+        {
+            try
+            {
+                foreach (string path in pathsWithSqlite)
+                {
+                    string connectionString = $"Data Source={path};Version=3;";
+
+                    using (var connection = new SQLiteConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        // Check if entry already exists
+                        string checkQuery = $@"
+                            SELECT 1 FROM ZILPPROPERTY 
+                            WHERE ZKEY = 'toolbarExerciseAnswerSolutionToggle' 
+                            AND ZEPRODUCT = {zeProduct}
+                            LIMIT 1;";
+
+                        using (var checkCmd = new SQLiteCommand(checkQuery, connection))
+                        {
+                            var exists = checkCmd.ExecuteScalar();
+                            if (exists != null) continue;
+                        }
+
+                        // Get next available Z_PK
+                        string maxPkQuery = "SELECT MAX(Z_PK) FROM ZILPPROPERTY;";
+                        int nextPk = 1;
+                        using (var maxPkCmd = new SQLiteCommand(maxPkQuery, connection))
+                        {
+                            object result = maxPkCmd.ExecuteScalar();
+                            if (result != DBNull.Value && result != null)
+                                nextPk = Convert.ToInt32(result) + 1;
+                        }
+
+                        // Insert row
+                        string insertQuery = $@"
+                            INSERT INTO ZILPPROPERTY 
+                            (Z_PK, Z_ENT, Z_OPT, ZTARGET, ZASSETSTAGE, ZKEY, ZVALUE, ZEPRODUCT)
+                            VALUES 
+                            ({nextPk}, 0, 0, 0, 4, 'toolbarExerciseAnswerSolutionToggle', 'false', {zeProduct});";
+
+                        using (var insertCmd = new SQLiteCommand(insertQuery, connection))
+                        {
+                            insertCmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Schliessen Sie Beook und versuchen Sie es erneut.", "Ein Fehler ist aufgetreten.");
+            }
         }
     }
 }
