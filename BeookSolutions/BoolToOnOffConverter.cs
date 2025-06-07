@@ -10,7 +10,7 @@ namespace BeookSolutions
         {
             if (value is CourseBookInfo courseBook)
             {
-                if (AppConstants.CourseBooksWithoutSolutions.Contains(courseBook.ZEPRODUCT))
+                if (courseBook.HASNOSOLUTIONS)
                     return "N/A";
 
                 return courseBook.ZVALUE ? "ON" : "OFF";

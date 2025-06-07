@@ -48,7 +48,7 @@ namespace BeookSolutions
             foreach (var courseBook in courseBookInfo)
             {
                 int zeProduct = courseBook.ZEPRODUCT;
-                if (AppConstants.CourseBooksWithoutSolutions.Contains(zeProduct))
+                if (courseBook.HASNOSOLUTIONS)
                     continue;
 
                 bool newValue = !courseBook.ZVALUE;
@@ -91,7 +91,7 @@ namespace BeookSolutions
                 BooksList.ItemsSource = courseBookInfo;
 
                 var relevantBooks = courseBookInfo
-                    .Where(c => !AppConstants.CourseBooksWithoutSolutions.Contains(c.ZEPRODUCT))
+                    .Where(c => !c.HASNOSOLUTIONS)
                     .ToList();
 
                 if (relevantBooks.All(c => c.ZVALUE))
