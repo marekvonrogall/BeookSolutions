@@ -4,8 +4,8 @@ BeookSolutions bietet Nutzern von "[Beook](https://beook.ch/)" die Möglichkeit,
 Bei Aktivierung wird der Toolbar in Beook ein neues Element zum Einblenden der Lösungen hinzugefügt:
 
 <h3 alingn="center">
-  <img src="https://github.com/user-attachments/assets/f3871362-294f-4bb7-a788-6b5cbbbe7070" alt="Beook Solutions App Preview Solutions Off" width="500" />
-  <img src="https://github.com/user-attachments/assets/f8352033-975e-4e78-a9cd-bf807dfd24aa" alt="Beook Solutions App Preview Solutions On" width="500" />
+  <img src="https://github.com/user-attachments/assets/f3871362-294f-4bb7-a788-6b5cbbbe7070" alt="Beook Solutions App Preview Solutions Off" width="400" />
+  <img src="https://github.com/user-attachments/assets/f8352033-975e-4e78-a9cd-bf807dfd24aa" alt="Beook Solutions App Preview Solutions On" width="400" />
 <h3/>
   
 ## Installation
@@ -20,9 +20,9 @@ Die portable Version und der Installer können [hier](https://marekvonrogall.git
 Vorschau der Desktop-App für Windows:
 
 <h3 alingn="center">
-  <img src="https://github.com/user-attachments/assets/d87ae6c4-4067-4a9d-8dcc-59c6f276db11" alt="Beook Solutions App Preview" width="330" />
-  <img src="https://github.com/user-attachments/assets/d3cbe779-6536-4f6e-a4ff-8ba9efc59029" alt="Beook Solutions App Preview" width="330" />
-  <img src="https://github.com/user-attachments/assets/d52d4331-c326-4908-8e96-8a7b337e9361" alt="Beook Solutions App Preview" width="330" />
+  <img src="https://github.com/user-attachments/assets/d87ae6c4-4067-4a9d-8dcc-59c6f276db11" alt="Beook Solutions App Preview" width="260" />
+  <img src="https://github.com/user-attachments/assets/d3cbe779-6536-4f6e-a4ff-8ba9efc59029" alt="Beook Solutions App Preview" width="260" />
+  <img src="https://github.com/user-attachments/assets/d52d4331-c326-4908-8e96-8a7b337e9361" alt="Beook Solutions App Preview" width="260" />
 <h3/>
 
 ### Linux
