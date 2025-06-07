@@ -25,20 +25,25 @@ namespace BeookSolutions
 
         private void Setup()
         {
-            if(Path.Exists(database.databasePath))
+            if (Path.Exists(AppConstants.ProfilePath) && File.Exists(AppConstants.WorkspacePath))
             {
                 CloseBeook();
+                if (Workspace.GetCurrentProfileId() == 0)
+                { 
+                    Error("Sie sind nicht eingeloggt. Bitte melden Sie sich bei Beook an, um fortzufahren.");
+                    return;
+                }
                 ToggleUIElements();
             }
             else
             {
-                Error();
+                Error("Beook ist nicht installiert oder das standardmässige Arbeitsverzeichnis wurde in den Beook-Einstellungen geändert.");
             }
         }
 
-        private void Error()
+        private void Error(string errorMessage)
         {
-            TextBlockSubtitle.Text = "Fehler: Beook ist nicht installiert oder das standardmässige Arbeitsverzeichnis wurde in den Beook-Einstellungen geändert.";
+            TextBlockSubtitle.Text = errorMessage;
             ButtonToggleSolutions.Visibility = Visibility.Hidden;
         }
 
