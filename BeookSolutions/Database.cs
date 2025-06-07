@@ -102,93 +102,117 @@ namespace BeookSolutions
 
         public List<CourseBookInfo> GetCourseBookInfo()
         {
-            var courseProductInfos = new List<CourseBookInfo>();
-            var zValues = new Dictionary<int, bool>();
-            var toFix = new List<int>();
+            var courseBookInfo = new List<CourseBookInfo>();
 
             try
             {
                 foreach (string path in pathsWithSqlite)
                 {
                     string connectionString = $"Data Source={path};Version=3;";
-
                     using (var connection = new SQLiteConnection(connectionString))
                     {
                         connection.Open();
 
-                        // Get ZEPRODUCT + ZVALUE from ZILPPROPERTY
-                        string selectZilpProperty = @"
-                            SELECT ZEPRODUCT, ZVALUE 
-                            FROM ZILPPROPERTY 
-                            WHERE ZKEY = 'toolbarExerciseAnswerSolutionToggle';";
+                        // Get ZCOURSEID and ZREFERENCE from ZILPCOURSEDEF
+                        var courseRefs = new Dictionary<string, string>(); // ZREFERENCE -> ZCOURSEID
+                        string queryCourseDef = "SELECT ZCOURSEID, ZREFERENCE FROM ZILPCOURSEDEF;";
+                        using (var cmd = new SQLiteCommand(queryCourseDef, connection))
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string zcourseId = reader.IsDBNull(0) ? null : reader.GetString(0);
+                                string zreference = reader.IsDBNull(1) ? null : reader.GetString(1);
 
-                        using (var command = new SQLiteCommand(selectZilpProperty, connection))
-                        using (var reader = command.ExecuteReader())
+                                if (!string.IsNullOrWhiteSpace(zreference) && !string.IsNullOrWhiteSpace(zcourseId) && !courseRefs.ContainsKey(zreference))
+                                    courseRefs.Add(zreference, zcourseId);
+                            }
+                        }
+
+                        if (courseRefs.Count == 0) continue;
+
+                        // Get ZEPRODUCT from ZILPCOURSEPRODUCT by matching ZCOURSEREFERENCE (ZREFERENCE)
+                        var productRefs = new List<(int ZEPRODUCT, string ZCOURSEREFERENCE, string ZCOURSEID)>();
+                        string referenceList = string.Join(",", courseRefs.Keys.Select(r => $"'{r}'")); // 'zRef1','zRef2','zRef3'...
+                        string queryCourseProduct = $@"
+                            SELECT ZEPRODUCT, ZCOURSEREFERENCE 
+                            FROM ZILPCOURSEPRODUCT 
+                            WHERE ZCOURSEREFERENCE IN ({referenceList});";
+
+                        using (var cmd = new SQLiteCommand(queryCourseProduct, connection))
+                        using (var reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
                                 int zeProduct = reader.GetInt32(0);
-                                string zvalueStr = reader.IsDBNull(1) ? "false" : reader.GetString(1);
-                                bool zValue = zvalueStr.Trim().ToLower() == "true";
-
-                                // Collect faulty entries to handle later
-                                if (AppConstants.KnownFaultyZeProducts.ContainsKey(zeProduct))
+                                string zcourseRef = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                if (zcourseRef != null && courseRefs.TryGetValue(zcourseRef, out string zcourseId))
                                 {
-                                    if (AppConstants.KnownFaultyZeProducts.TryGetValue(zeProduct, out int correctedZeProduct))
-                                    {
-                                        zeProduct = correctedZeProduct;
-                                    }
-
-                                    zValue = false;
-                                    toFix.Add(zeProduct);
+                                    productRefs.Add((zeProduct, zcourseRef, zcourseId));
                                 }
-
-                                if (!zValues.ContainsKey(zeProduct))
-                                    zValues.Add(zeProduct, zValue);
                             }
                         }
 
-                        foreach (int zeProduct in toFix.Distinct())
-                        {
-                            CreateSolutionToolbarToggle(zeProduct);
-                        }
+                        if (productRefs.Count == 0) continue;
 
-                        // Get course details from ZILPCOURSEPRODUCT and ZTITLE from ZILPCOURSESERIES
-                        if (zValues.Count > 0)
+                        // Get ZTITLE from ZILPCOURSESERIES using ZCOURSEIDENTIFIER
+                        var courseTitles = new Dictionary<string, string>(); // ZCOURSEIDENTIFIER -> ZTITLE
+                        string titleQuery = "SELECT ZCOURSEIDENTIFIER, ZTITLE FROM ZILPCOURSESERIES;";
+                        using (var cmd = new SQLiteCommand(titleQuery, connection))
+                        using (var reader = cmd.ExecuteReader())
                         {
-                            string placeholderList = string.Join(",", zValues.Keys);
-                            string selectCourseProduct = $@"
-                                SELECT p.ZEPRODUCT, p.ZCOURSEIDENTIFIER, p.ZCOURSEREFERENCE, s.ZTITLE
-                                FROM ZILPCOURSEPRODUCT p
-                                LEFT JOIN ZILPCOURSESERIES s ON p.ZCOURSEIDENTIFIER = s.ZCOURSEIDENTIFIER
-                                WHERE p.ZEPRODUCT IN ({placeholderList});";
-
-                            using (var command = new SQLiteCommand(selectCourseProduct, connection))
-                            using (var reader = command.ExecuteReader())
+                            while (reader.Read())
                             {
-                                while (reader.Read())
+                                string identifier = reader.IsDBNull(0) ? null : reader.GetString(0);
+                                string title = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                if (!string.IsNullOrEmpty(identifier) && !courseTitles.ContainsKey(identifier))
                                 {
-                                    int zeProduct = reader.GetInt32(0);
-                                    string courseIdentifier = reader.IsDBNull(1) ? null : reader.GetString(1);
-                                    string courseReference = reader.IsDBNull(2) ? null : reader.GetString(2);
-                                    string title = reader.IsDBNull(3) ? null : reader.GetString(3);
-                                    title = ZTitleNamingCorrection(title, courseIdentifier);
-
-                                    courseProductInfos.Add(new CourseBookInfo
-                                    {
-                                        ZEPRODUCT = zeProduct,
-                                        ZCOURSEIDENTIFIER = courseIdentifier,
-                                        ZCOURSEREFERENCE = courseReference,
-                                        ZTITLE = title,
-                                        ZVALUE = zValues.TryGetValue(zeProduct, out bool value) && value
-                                    });
+                                    courseTitles.Add(identifier, title);
                                 }
                             }
+                        }
+
+                        // Get ZVALUE from ZILPPROPERTY for matching ZEPRODUCTs
+                        var zValues = new Dictionary<int, bool>();
+                        string productIds = string.Join(",", productRefs.Select(p => p.ZEPRODUCT).Distinct());
+                        string propertyQuery = $@"
+                            SELECT ZEPRODUCT, ZVALUE 
+                            FROM ZILPPROPERTY 
+                            WHERE ZKEY = 'toolbarExerciseAnswerSolutionToggle' AND ZEPRODUCT IN ({productIds});";
+
+                        using (var cmd = new SQLiteCommand(propertyQuery, connection))
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int zeProduct = reader.GetInt32(0);
+                                string valueStr = reader.IsDBNull(1) ? "false" : reader.GetString(1);
+                                bool zValue = valueStr.Trim().ToLower() == "true";
+                                zValues[zeProduct] = zValue;
+                            }
+                        }
+
+                        foreach (var (zeProduct, zcourseRef, zcourseId) in productRefs)
+                        {
+                            courseTitles.TryGetValue(zcourseId, out string zTitle);
+                            zTitle = ZTitleNamingCorrection(zTitle, zcourseId);
+
+                            bool hasValue = zValues.TryGetValue(zeProduct, out bool value);
+
+                            courseBookInfo.Add(new CourseBookInfo
+                            {
+                                ZEPRODUCT = zeProduct,
+                                ZCOURSEREFERENCE = zcourseRef,
+                                ZCOURSEIDENTIFIER = zcourseId,
+                                ZTITLE = zTitle,
+                                ZVALUE = hasValue && value,
+                                HASNOSOLUTIONS = !hasValue
+                            });
                         }
                     }
                 }
 
-                return courseProductInfos.OrderBy(c => c.ZTITLE).ToList();
+                return courseBookInfo.OrderBy(c => c.ZTITLE).ToList();
             }
             catch
             {
