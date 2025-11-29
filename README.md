@@ -36,15 +36,15 @@ In dieser Anleitung wird davon ausgegangen, dass [wine](https://gitlab.winehq.or
 
 1. Laden Sie das Docker-Image von GHCR herunter und starten Sie den Container:
 
-```bash
-docker pull ghcr.io/marekvonrogall/tools/beook-solutions:latest
-docker run -it -p 5000:5000 ghcr.io/marekvonrogall/tools/beook-solutions:latest
+```bash´
+docker pull ghcr.io/marekvonrogall/beooksolutions-api/beook-solutions:latest
+docker run -it -p 5000:5000 ghcr.io/marekvonrogall/beooksolutions-api/beook-solutions:latest
 ```
 Alternativ können Sie auch das Projekt selbst klonen und mit Docker bauen und ausführen:
 
 ```bash
-git clone https://github.com/marekvonrogall/beooksolutions-cli.git
-cd beooksolutions-cli
+git clone https://github.com/marekvonrogall/beooksolutions-api.git
+cd beooksolutions-api/src/BeookSolutions
 docker build -t beook-solutions .
 docker run -it -p 5000:5000 beook-solutions
 ```
@@ -72,7 +72,7 @@ All-in-one-Befehl, der die Lösungen für alle Profile deaktiviert:
 find /home/$USER/.wine/drive_c/users/$(ls /home/$USER/.wine/drive_c/users | head -n 1)/AppData/Roaming/ionesoft/beook/release/profiles/ -type f -path "*/data/beook_book_v6.sqlite" -exec curl -F "file=@{}" http://localhost:5000/Solution/disable -o {} \;
 ```
 
-Eine genauere Dokumentation der API-Endpunkte finden Sie [hier](https://github.com/marekvonrogall/beooksolutions-cli).
+Eine genauere Dokumentation der API-Endpunkte finden Sie [hier](https://github.com/marekvonrogall/beooksolutions-api).
 
 ## Disclaimer of Affiliation with Ionesoft
 This app, "Beook Solutions", is an independent product and is not affiliated with Ionesoft, the publisher and developer of Beook. The use of the word "Beook" does not imply any official approval or partnership with Ionesoft.
